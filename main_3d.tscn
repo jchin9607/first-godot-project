@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://clmk7slluy2ak"]
+[gd_scene load_steps=13 format=3 uid="uid://clmk7slluy2ak"]
 
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_wiwsh"]
 [ext_resource type="PackedScene" uid="uid://bu473jxi158kv" path="res://inventory.tscn" id="5_2wc1w"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://hhkv1pa8fs1i" path="res://pillar_spawner.tscn" id="9_wi601"]
 [ext_resource type="PackedScene" uid="uid://cwh1nn8ujej7p" path="res://models/skeleton/skeleton.tscn" id="10_wi601"]
 [ext_resource type="Script" uid="uid://c7t1h0wffytqu" path="res://pillar_spawner.gd" id="10_xjxh8"]
-[ext_resource type="Script" uid="uid://pti6s8gm4jbt" path="res://models/skeleton/skeleton.gd" id="11_xjxh8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_aas03"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -67,7 +66,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.7)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("11_xjxh8")
 
 [node name="PillarSpawner" parent="." instance=ExtResource("9_wi601")]
 script = ExtResource("10_xjxh8")
