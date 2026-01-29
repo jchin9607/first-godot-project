@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxh2ew335g6u8"]
+
+[ext_resource type="Script" uid="uid://syudnrhyyw3v" path="res://models/chest_gold/chest.gd" id="1_mpct6"]
+[ext_resource type="PackedScene" uid="uid://dgij5x7h00xbc" path="res://models/chest_gold/chest_gold.glb" id="1_podr8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mpct6"]
+size = Vector3(1.6, 1.2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_podr8"]
+radius = 2.1000001
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mpct6"]
+properties/0/path = NodePath("chest_gold2/chest_gold/chest_gold_lid:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="StaticBody3D" type="StaticBody3D"]
+collision_mask = 3
+script = ExtResource("1_mpct6")
+
+[node name="chest_gold2" parent="." instance=ExtResource("1_podr8")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9604645e-08, 0.6, 0)
+shape = SubResource("BoxShape3D_mpct6")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.1)
+shape = SubResource("SphereShape3D_podr8")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mpct6")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+
+[editable path="chest_gold2"]

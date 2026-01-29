@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://ixqj2s1g32hs"]
+
+[ext_resource type="Script" uid="uid://bd1lth6s3w7sa" path="res://menu.gd" id="1_lti8b"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_lti8b")
+
+[node name="Label" type="Label" parent="."]
+offset_top = 255.0
+offset_right = 119.0
+offset_bottom = 278.0
+text = "Multiplater sim"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 1.0
+offset_top = 291.0
+offset_right = 79.0
+offset_bottom = 322.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start
+"
+
+[connection signal="button_down" from="VBoxContainer/Start" to="." method="_on_start_button_down"]

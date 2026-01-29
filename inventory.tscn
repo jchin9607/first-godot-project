@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu473jxi158kv"]
+
+[ext_resource type="Script" uid="uid://y70hrr0g4j27" path="res://inventory.gd" id="1_psafj"]
+[ext_resource type="Texture2D" uid="uid://dv6rx85s1gy3i" path="res://assets/ballBlue_10.png" id="2_5tt2m"]
+[ext_resource type="Script" uid="uid://bgi0ibx0gftcs" path="res://slot2.gd" id="4_dw5ng"]
+[ext_resource type="Script" uid="uid://yiodn2ul8nn1" path="res://signal_bus.gd" id="4_mrqgh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c0rdb"]
+bg_color = Color(0, 0, 0, 0.28235295)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="inv" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_psafj")
+
+[node name="inventory" type="MarginContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 104.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Panel" type="Panel" parent="inventory"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c0rdb")
+
+[node name="MarginContainer" type="MarginContainer" parent="inventory"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Panel" type="Panel" parent="inventory/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="GridContainer" parent="inventory/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 6
+
+[node name="InventorySlot" type="Control" parent="inventory/MarginContainer/MarginContainer2"]
+custom_minimum_size = Vector2(74, 74)
+layout_mode = 2
+script = ExtResource("4_dw5ng")
+
+[node name="TextureRect" type="TextureRect" parent="inventory/MarginContainer/MarginContainer2/InventorySlot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 0
+texture = ExtResource("2_5tt2m")
+
+[node name="Label" type="Label" parent="inventory/MarginContainer/MarginContainer2/InventorySlot/TextureRect"]
+layout_mode = 0
+offset_right = 38.0
+offset_bottom = 37.0
+scale = Vector2(4, 4)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SignalBus" type="Node" parent="."]
+script = ExtResource("4_mrqgh")

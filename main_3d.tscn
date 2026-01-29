@@ -1,0 +1,80 @@
+[gd_scene load_steps=14 format=3 uid="uid://clmk7slluy2ak"]
+
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_wiwsh"]
+[ext_resource type="PackedScene" uid="uid://bu473jxi158kv" path="res://inventory.tscn" id="5_2wc1w"]
+[ext_resource type="PackedScene" uid="uid://b7acq0gs25xqe" path="res://canvas_layer.tscn" id="6_8jj3j"]
+[ext_resource type="PackedScene" uid="uid://oigc6kcqibyb" path="res://models/city_at_night/city_scene.tscn" id="7_xofcu"]
+[ext_resource type="Script" uid="uid://cgpr6pn6wgsbb" path="res://texture_rect.gd" id="8_vipva"]
+[ext_resource type="PackedScene" uid="uid://bbnq70vxm8w31" path="res://projectile.tscn" id="9_et6uk"]
+[ext_resource type="PackedScene" uid="uid://hhkv1pa8fs1i" path="res://pillar_spawner.tscn" id="9_wi601"]
+[ext_resource type="PackedScene" uid="uid://cwh1nn8ujej7p" path="res://models/skeleton/skeleton.tscn" id="10_wi601"]
+[ext_resource type="Script" uid="uid://c7t1h0wffytqu" path="res://pillar_spawner.gd" id="10_xjxh8"]
+[ext_resource type="Script" uid="uid://pti6s8gm4jbt" path="res://models/skeleton/skeleton.gd" id="11_xjxh8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_aas03"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_wiwsh"]
+sky_material = SubResource("ProceduralSkyMaterial_aas03")
+
+[sub_resource type="Environment" id="Environment_pt58c"]
+background_mode = 2
+sky = SubResource("Sky_wiwsh")
+tonemap_mode = 3
+tonemap_exposure = 1.16
+tonemap_white = 4.42
+glow_enabled = true
+
+[node name="Main3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pt58c")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.24999999, 2.7805946e-08, 0.49999994, 0.86602545, -0.50000006, 0.75, -0.43301266, 4.8, 7.0000005, -1.0999999)
+layers = 3
+shadow_enabled = true
+
+[node name="ProtoController" parent="." instance=ExtResource("1_wiwsh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -5)
+collision_layer = 2
+collision_mask = 3
+
+[node name="inv" parent="." instance=ExtResource("5_2wc1w")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("6_8jj3j")]
+
+[node name="Untitled" parent="." instance=ExtResource("7_xofcu")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_vipva")
+
+[node name="Projectile" parent="." instance=ExtResource("9_et6uk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0)
+
+[node name="Skeleton" parent="." instance=ExtResource("10_wi601")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.7)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("11_xjxh8")
+
+[node name="PillarSpawner" parent="." instance=ExtResource("9_wi601")]
+script = ExtResource("10_xjxh8")
+
+[node name="Timer" type="Timer" parent="PillarSpawner"]
+wait_time = 5.0
+ignore_time_scale = true
+
+[connection signal="body_entered" from="Projectile" to="Skeleton" method="_on_projectile_body_entered"]
+[connection signal="timeout" from="PillarSpawner/Timer" to="PillarSpawner" method="_on_timer_timeout"]

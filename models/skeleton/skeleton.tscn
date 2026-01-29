@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwh1nn8ujej7p"]
+
+[ext_resource type="PackedScene" uid="uid://b81m2ypngb87w" path="res://models/skeleton/skeleton_mage.glb" id="1_a6wba"]
+[ext_resource type="PackedScene" uid="uid://daowku71sivdr" path="res://healthbar.tscn" id="2_iw1gu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iw1gu"]
+radius = 0.4
+height = 2.5
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_12xnb"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Skeleton" type="RigidBody3D"]
+
+[node name="skeleton_mage" parent="." instance=ExtResource("1_a6wba")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("CapsuleShape3D_iw1gu")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(150, 23)
+
+[node name="healthbar" parent="SubViewport" instance=ExtResource("2_iw1gu")]
+offset_right = 150.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4901161e-08, 3.0000002, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_12xnb")
