@@ -19,3 +19,10 @@ func take_damage(amount: int):
 	
 	# health bar method to display might be taxing
 	
+
+	
+	
+
+
+
+		

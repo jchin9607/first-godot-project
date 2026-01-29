@@ -41,6 +41,8 @@ extends CharacterBody3D
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
 
+@onready var hurtbox : Area3D = $Head/Camera3D/hurtbox
+
 var dash_collided = null
 
 var dash_direction = Vector3.ZERO
@@ -85,6 +87,12 @@ func _ready() -> void:
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
 	capture_mouse()
+	
+	set_collision_layer_value(4, false)
+	set_collision_layer_value(2, true)
+	set_collision_mask_value(2, true)
+	set_collision_mask_value(1, true)
+	
 	
 	
 
@@ -159,6 +167,11 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 	
 		if Input.is_action_just_pressed("dash"):
+			if get_collision_mask_value(2) and get_collision_layer_value(2):
+				set_collision_mask_value(2, false)
+				set_collision_layer_value(2, false)
+				set_collision_layer_value(4, true)
+			
 			if Input.get_vector(input_left, input_right, input_forward, input_back).length() == 0:
 				velocity.x = 0
 				velocity.z = 0
@@ -188,6 +201,8 @@ func _physics_process(delta: float) -> void:
 	
 	if cur_state == State.DASH:
 		
+		
+	
 		if (velocity.x == 0 and velocity.y == 0):
 			var forward = -transform.basis.z
 			dash_direction = forward.normalized() * sprint_speed * 60
@@ -198,11 +213,12 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(dash_direction, 100*delta) 
 		move_and_slide()
 		
-		for i in get_slide_collision_count():
-			var collision = get_slide_collision(i)
-			if collision != null and collision.get_collider() is RigidBody3D and dash_collided == null:
-				collision.get_collider().take_damage(20)
-				dash_collided = collision.get_collider()
+		
+		#for i in get_slide_collision_count():
+			#var collision = get_slide_collision(i)
+			#if collision != null and collision.get_collider() is RigidBody3D and dash_collided == null:
+				#collision.get_collider().take_damage(20)
+				#dash_collided = collision.get_collider()
 		
 	
 				
@@ -212,8 +228,8 @@ func _physics_process(delta: float) -> void:
 	#Exit game
 	
 	if Input.is_action_just_pressed("quit"):
-	
-		get_tree().quit()
+		
+		get_tree().change_scene_to_file("res://menu.tscn")
 
 
 ## Rotate us to look around.
@@ -280,6 +296,11 @@ func _on_timer_timeout() -> void:
 	dash_direction = Vector3.ZERO
 	
 	timer.stop()
+	set_collision_layer_value(4, false)
+	set_collision_layer_value(2, true)
+	set_collision_mask_value(2, true)
+	set_collision_mask_value(1, true)
+	
 	print("timeout")
 	cur_state = State.DEFAULT
 	dash_collided = null
@@ -303,3 +324,8 @@ func _on_wall_jump_cooldown_timeout() -> void:
 func take_damage(amount: int):
 	health -= amount
 	print(amount)
+
+
+func _on_hurtbox_body_entered(body: Node3D) -> void:
+	if body != self and cur_state == State.DASH:
+		body.take_damage(20)

@@ -37,8 +37,6 @@ shadow_enabled = true
 
 [node name="ProtoController" parent="." instance=ExtResource("1_wiwsh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -5)
-collision_layer = 2
-collision_mask = 3
 
 [node name="inv" parent="." instance=ExtResource("5_2wc1w")]
 
@@ -61,11 +59,15 @@ script = ExtResource("8_vipva")
 
 [node name="Projectile" parent="." instance=ExtResource("9_et6uk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0)
+collision_mask = 11
 
 [node name="Skeleton" parent="." instance=ExtResource("10_wi601")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.7)
-collision_layer = 2
 collision_mask = 3
+mass = 100.0
+inertia = Vector3(30, 30, 30)
+contact_monitor = true
+max_contacts_reported = 3
 
 [node name="PillarSpawner" parent="." instance=ExtResource("9_wi601")]
 script = ExtResource("10_xjxh8")
