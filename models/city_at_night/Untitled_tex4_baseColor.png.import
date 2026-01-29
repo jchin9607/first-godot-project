@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://duvrov3yy0ebf"
 path.s3tc="res://.godot/imported/Untitled_tex4_baseColor.png-efc4274a7e3674fd231e79b65c07fc2b.s3tc.ctex"
+path.etc2="res://.godot/imported/Untitled_tex4_baseColor.png-efc4274a7e3674fd231e79b65c07fc2b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/city_at_night/Untitled_tex4_baseColor.png"
-dest_files=["res://.godot/imported/Untitled_tex4_baseColor.png-efc4274a7e3674fd231e79b65c07fc2b.s3tc.ctex"]
+dest_files=["res://.godot/imported/Untitled_tex4_baseColor.png-efc4274a7e3674fd231e79b65c07fc2b.s3tc.ctex", "res://.godot/imported/Untitled_tex4_baseColor.png-efc4274a7e3674fd231e79b65c07fc2b.etc2.ctex"]
 
 [params]
 

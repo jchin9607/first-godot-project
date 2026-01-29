@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="instancing"
+run/main_scene="uid://ixqj2s1g32hs"
 config/features=PackedStringArray("4.5")
 
 [autoload]
@@ -106,3 +107,7 @@ use_rope={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

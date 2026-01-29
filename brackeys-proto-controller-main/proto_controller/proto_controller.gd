@@ -41,7 +41,7 @@ extends CharacterBody3D
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
 
-
+var dash_collided = null
 
 var dash_direction = Vector3.ZERO
 
@@ -187,6 +187,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if cur_state == State.DASH:
+		
 		if (velocity.x == 0 and velocity.y == 0):
 			var forward = -transform.basis.z
 			dash_direction = forward.normalized() * sprint_speed * 60
@@ -196,6 +197,12 @@ func _physics_process(delta: float) -> void:
 		
 		velocity = velocity.move_toward(dash_direction, 100*delta) 
 		move_and_slide()
+		
+		for i in get_slide_collision_count():
+			var collision = get_slide_collision(i)
+			if collision != null and collision.get_collider() is RigidBody3D and dash_collided == null:
+				collision.get_collider().take_damage(20)
+				dash_collided = collision.get_collider()
 		
 	
 				
@@ -275,6 +282,7 @@ func _on_timer_timeout() -> void:
 	timer.stop()
 	print("timeout")
 	cur_state = State.DEFAULT
+	dash_collided = null
 	pass
 	
 func opened_ui(state: bool, can_move: bool):

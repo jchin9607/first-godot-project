@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://chsguitt64w0"
 path.s3tc="res://.godot/imported/Untitled_Asphalt_New_1_baseColor.jpg-a3cfe65e75186638cff963900060a2aa.s3tc.ctex"
+path.etc2="res://.godot/imported/Untitled_Asphalt_New_1_baseColor.jpg-a3cfe65e75186638cff963900060a2aa.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/city_at_night/Untitled_Asphalt_New_1_baseColor.jpg"
-dest_files=["res://.godot/imported/Untitled_Asphalt_New_1_baseColor.jpg-a3cfe65e75186638cff963900060a2aa.s3tc.ctex"]
+dest_files=["res://.godot/imported/Untitled_Asphalt_New_1_baseColor.jpg-a3cfe65e75186638cff963900060a2aa.s3tc.ctex", "res://.godot/imported/Untitled_Asphalt_New_1_baseColor.jpg-a3cfe65e75186638cff963900060a2aa.etc2.ctex"]
 
 [params]
 

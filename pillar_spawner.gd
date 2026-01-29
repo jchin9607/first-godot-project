@@ -5,11 +5,16 @@ const skeleton = preload("res://models/skeleton/skeleton.tscn")
 
 var radius = 15.0
 
+static var amount = 0
+var limit = 8
+
 func _ready() -> void:
 	timer.start()
 
 func _on_timer_timeout() -> void:
+	if (amount >= limit): return
 	spawn()
+	
 
 func spawn():
 	var skel = skeleton.instantiate()
@@ -25,4 +30,5 @@ func spawn():
 	
 		
 	add_sibling(skel)
+	amount += 1
 	

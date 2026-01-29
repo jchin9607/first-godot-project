@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bswv2xn8m83pk"
 path.s3tc="res://.godot/imported/tex3_baseColor.png-7f658141c375a99d98e2d0f835c90a0a.s3tc.ctex"
+path.etc2="res://.godot/imported/tex3_baseColor.png-7f658141c375a99d98e2d0f835c90a0a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/city_at_night/textures/tex3_baseColor.png"
-dest_files=["res://.godot/imported/tex3_baseColor.png-7f658141c375a99d98e2d0f835c90a0a.s3tc.ctex"]
+dest_files=["res://.godot/imported/tex3_baseColor.png-7f658141c375a99d98e2d0f835c90a0a.s3tc.ctex", "res://.godot/imported/tex3_baseColor.png-7f658141c375a99d98e2d0f835c90a0a.etc2.ctex"]
 
 [params]
 

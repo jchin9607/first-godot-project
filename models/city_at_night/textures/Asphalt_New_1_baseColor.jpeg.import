@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c75mqblvxtmkw"
 path.s3tc="res://.godot/imported/Asphalt_New_1_baseColor.jpeg-4472777c0bdc6bbe5b4d3933f9cdeaeb.s3tc.ctex"
+path.etc2="res://.godot/imported/Asphalt_New_1_baseColor.jpeg-4472777c0bdc6bbe5b4d3933f9cdeaeb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/city_at_night/textures/Asphalt_New_1_baseColor.jpeg"
-dest_files=["res://.godot/imported/Asphalt_New_1_baseColor.jpeg-4472777c0bdc6bbe5b4d3933f9cdeaeb.s3tc.ctex"]
+dest_files=["res://.godot/imported/Asphalt_New_1_baseColor.jpeg-4472777c0bdc6bbe5b4d3933f9cdeaeb.s3tc.ctex", "res://.godot/imported/Asphalt_New_1_baseColor.jpeg-4472777c0bdc6bbe5b4d3933f9cdeaeb.etc2.ctex"]
 
 [params]
 

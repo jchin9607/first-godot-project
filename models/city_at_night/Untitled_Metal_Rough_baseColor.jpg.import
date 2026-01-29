@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b741htp74k5oq"
 path.s3tc="res://.godot/imported/Untitled_Metal_Rough_baseColor.jpg-7f26c5b86d686e89902126a3bf53b3d3.s3tc.ctex"
+path.etc2="res://.godot/imported/Untitled_Metal_Rough_baseColor.jpg-7f26c5b86d686e89902126a3bf53b3d3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/city_at_night/Untitled_Metal_Rough_baseColor.jpg"
-dest_files=["res://.godot/imported/Untitled_Metal_Rough_baseColor.jpg-7f26c5b86d686e89902126a3bf53b3d3.s3tc.ctex"]
+dest_files=["res://.godot/imported/Untitled_Metal_Rough_baseColor.jpg-7f26c5b86d686e89902126a3bf53b3d3.s3tc.ctex", "res://.godot/imported/Untitled_Metal_Rough_baseColor.jpg-7f26c5b86d686e89902126a3bf53b3d3.etc2.ctex"]
 
 [params]
 
