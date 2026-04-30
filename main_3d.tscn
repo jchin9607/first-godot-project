@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://clmk7slluy2ak"]
+[gd_scene load_steps=14 format=3 uid="uid://clmk7slluy2ak"]
 
-[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_wiwsh"]
+[ext_resource type="Script" uid="uid://csa25sgbm0isl" path="res://main_3d.gd" id="1_et6uk"]
 [ext_resource type="PackedScene" uid="uid://bu473jxi158kv" path="res://inventory.tscn" id="5_2wc1w"]
 [ext_resource type="PackedScene" uid="uid://b7acq0gs25xqe" path="res://canvas_layer.tscn" id="6_8jj3j"]
+[ext_resource type="Script" uid="uid://cb85jgnefe3rv" path="res://health.gd" id="6_wi601"]
 [ext_resource type="PackedScene" uid="uid://oigc6kcqibyb" path="res://models/city_at_night/city_scene.tscn" id="7_xofcu"]
 [ext_resource type="Script" uid="uid://cgpr6pn6wgsbb" path="res://texture_rect.gd" id="8_vipva"]
 [ext_resource type="PackedScene" uid="uid://bbnq70vxm8w31" path="res://projectile.tscn" id="9_et6uk"]
@@ -26,17 +27,15 @@ tonemap_white = 4.42
 glow_enabled = true
 
 [node name="Main3D" type="Node3D"]
+script = ExtResource("1_et6uk")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pt58c")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.24999999, 2.7805946e-08, 0.49999994, 0.86602545, -0.50000006, 0.75, -0.43301266, 4.8, 7.0000005, -1.0999999)
-layers = 3
+layers = 15
 shadow_enabled = true
-
-[node name="ProtoController" parent="." instance=ExtResource("1_wiwsh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -5)
 
 [node name="inv" parent="." instance=ExtResource("5_2wc1w")]
 
@@ -57,24 +56,78 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_vipva")
 
+[node name="Health" type="Label" parent="CanvasLayer2"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 49.0
+grow_horizontal = 0
+text = "1000
+"
+script = ExtResource("6_wi601")
+
+[node name="WeoponLabel" type="Label" parent="CanvasLayer2"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -11.0
+offset_right = -16.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+text = "Gun"
+
 [node name="Projectile" parent="." instance=ExtResource("9_et6uk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0)
 collision_mask = 11
 
 [node name="Skeleton" parent="." instance=ExtResource("10_wi601")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.7)
-collision_mask = 3
 mass = 100.0
 inertia = Vector3(30, 30, 30)
 contact_monitor = true
 max_contacts_reported = 3
 
 [node name="PillarSpawner" parent="." instance=ExtResource("9_wi601")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.2, 0, 0)
 script = ExtResource("10_xjxh8")
 
 [node name="Timer" type="Timer" parent="PillarSpawner"]
 wait_time = 5.0
 ignore_time_scale = true
 
+[node name="hostjoin" type="CanvasLayer" parent="."]
+
+[node name="Host" type="Button" parent="hostjoin"]
+offset_right = 153.0
+offset_bottom = 53.0
+text = "Host
+"
+
+[node name="Join" type="Button" parent="hostjoin"]
+offset_top = 57.0
+offset_right = 153.0
+offset_bottom = 110.0
+text = "Join"
+
+[node name="Singleplayer" type="Button" parent="hostjoin"]
+offset_left = 1.0
+offset_top = 118.0
+offset_right = 154.0
+offset_bottom = 170.0
+text = "Single Player"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6")
+spawn_path = NodePath("..")
+
 [connection signal="body_entered" from="Projectile" to="Skeleton" method="_on_projectile_body_entered"]
 [connection signal="timeout" from="PillarSpawner/Timer" to="PillarSpawner" method="_on_timer_timeout"]
+[connection signal="pressed" from="hostjoin/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="hostjoin/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="hostjoin/Singleplayer" to="." method="_on_singleplayer_pressed"]

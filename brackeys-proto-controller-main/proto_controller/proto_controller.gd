@@ -15,7 +15,7 @@ extends CharacterBody3D
 
 @export_group("Speeds")
 ## Look around rotation speed.
-@export var look_speed : float = 0.002
+@export var look_speed : float = 0.002 #0.002
 ## Normal speed.
 @export var base_speed : float = 12
 ## Speed of jump.
@@ -69,7 +69,9 @@ var health = 1000
 @onready var collider: CollisionShape3D = $Collider
 @onready var timer: Timer = $Timer
 @onready var cam: Camera3D = $Head/Camera3D
+@onready var weopon_cam: Camera3D = $Head/Camera3D/SubViewportContainer/SubViewport/Camera3D
 @onready var walljump_cooldown = $WallJumpCooldown
+@onready var health_bar = get_tree().current_scene.get_node("CanvasLayer2/Health")
 
 enum State {
 	DEFAULT,
@@ -81,6 +83,13 @@ enum State {
 var cur_state = State.DEFAULT
 
 func _ready() -> void:
+	
+	cam.current = is_multiplayer_authority()
+	
+	if !is_multiplayer_authority():
+	# Disable first-person weapon rendering
+		$Head/Camera3D/SubViewportContainer.visible = false
+	
 	
 	Playerinteractionsbus.opened_ui.connect(opened_ui)
 	check_input_mappings()
@@ -94,10 +103,12 @@ func _ready() -> void:
 	set_collision_mask_value(1, true)
 	
 	
-	
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
 
 func _unhandled_input(event: InputEvent) -> void:
-	
+	if !is_multiplayer_authority(): return
 	# Mouse capturing
 	#if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		#can_move_mouse = false
@@ -119,8 +130,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			disable_freefly()
 
-func _physics_process(delta: float) -> void:
+func _process(_delta):
+	if !is_multiplayer_authority(): return
+	weopon_cam.global_transform = cam.global_transform
 
+func _physics_process(delta: float) -> void:
+	if !is_multiplayer_authority(): return
 	# If freeflying, handle freefly and nothing else
 	
 		
@@ -228,7 +243,7 @@ func _physics_process(delta: float) -> void:
 	#Exit game
 	
 	if Input.is_action_just_pressed("quit"):
-		
+		$"../".exit_game(name.to_int())
 		get_tree().change_scene_to_file("res://menu.tscn")
 
 
@@ -306,10 +321,10 @@ func _on_timer_timeout() -> void:
 	dash_collided = null
 	pass
 	
-func opened_ui(state: bool, can_move: bool):
+func opened_ui(state: bool, _can_move: bool):
 	if state:
 		release_mouse()
-		if !can_move:
+		if !_can_move:
 			cur_state = State.PAUSED
 	else:
 		capture_mouse()
@@ -320,12 +335,23 @@ func _on_wall_jump_cooldown_timeout() -> void:
 	can_wall_jump = true
 	
 	walljump_cooldown.stop()
-	
+
+@rpc("any_peer")
 func take_damage(amount: int):
 	health -= amount
-	print(amount)
+	health_bar.update_health(health)
+	
+
 
 
 func _on_hurtbox_body_entered(body: Node3D) -> void:
 	if body != self and cur_state == State.DASH:
-		body.take_damage(20)
+		if body is CharacterBody3D:
+			body.take_damage.rpc_id(body.name.to_int(), 20)
+		if body is RigidBody3D:
+			body.take_damage(20)
+		
+		
+
+
+	

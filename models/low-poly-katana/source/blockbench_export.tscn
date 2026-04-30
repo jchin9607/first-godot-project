@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbvy1t4k6tqg1"]
+
+[ext_resource type="PackedScene" uid="uid://gm7tnc6kc07w" path="res://models/low-poly-katana/source/model.gltf" id="1_ai36f"]
+
+[node name="blockbench_export" instance=ExtResource("1_ai36f")]
+
+[node name="Node" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8)
+
+[node name="cube" parent="Node/katana/cabo2/bone" index="0"]
+layers = 2
+
+[node name="cube2" parent="Node/katana/cabo2/bone" index="1"]
+layers = 2
+
+[node name="cube3" parent="Node/katana/cabo2/bone" index="2"]
+layers = 2
+
+[node name="cube4" parent="Node/katana/cabo2/bone" index="3"]
+layers = 2
+
+[node name="cube5" parent="Node/katana/cabo2/bone" index="4"]
+layers = 2
+
+[node name="cube6" parent="Node/katana/cabo2/bone" index="5"]
+layers = 2
+
+[node name="tube" parent="Node/katana/cabo2" index="2"]
+layers = 2
+
+[node name="cylinder" parent="Node/katana/cabo2" index="3"]
+layers = 2
+
+[node name="cabo" parent="Node/katana/cabo2" index="4"]
+layers = 2
+
+[node name="lamina" parent="Node/katana/Lamina" index="0"]
+layers = 2
+
+[node name="cuboid" parent="Node/katana/Lamina" index="1"]
+layers = 2

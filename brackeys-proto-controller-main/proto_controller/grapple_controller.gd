@@ -14,6 +14,7 @@ var can_launch = true
 var launched = false
 var target : Vector3
 var is_ui_opened = false
+var did_burst = false
 
 
 func _ready():
@@ -21,12 +22,14 @@ func _ready():
 	#crosshair = get_tree().current_scene.get_node("CanvasLayer2/TextureRect")
 	
 func _physics_process(delta: float) -> void:
+	if !is_multiplayer_authority(): return
 	#if ray.is_colliding():
 		#crosshair.change_color(Color.INDIAN_RED)
 	#else:
 		#crosshair.change_color(Color.WHITE)
 		
 		
+	
 	if can_launch and !is_ui_opened:
 		if Input.is_action_just_pressed("use_rope"):
 			
@@ -46,6 +49,8 @@ func launch():
 	if ray.is_colliding():
 		target = ray.get_collision_point()
 		launched = true
+	
+	
 		
 	
 	
@@ -54,6 +59,7 @@ func retract():
 		launched = false
 		can_launch = false
 		cooldown.start()
+	
 		
 	
 func handle_grapple(delta: float):
@@ -69,6 +75,14 @@ func handle_grapple(delta: float):
 		
 		var vel_dot = player.velocity.dot(target_dir)
 		var damping = -damping * vel_dot * target_dir
+		
+		if !did_burst:
+			player.velocity += 30 * target_dir
+			did_burst = true
+		
+		
+	
+		
 		force = spring_force + damping
 		
 	
@@ -77,14 +91,26 @@ func handle_grapple(delta: float):
 func update_rope():
 	if !launched:
 		rope.visible = false
+		rope.scale = Vector3(0,0,0)
+		did_burst = false
 		return
 		
 	rope.visible = true
 	
-	var dist = player.global_position.distance_to(target)
+	#var dist = player.global_position.distance_to(target)
+	#
+	#rope.look_at(target)
+	#rope.scale = Vector3(1,1, dist)
+	var start = rope.global_position
+	var direction = (target - start).normalized()
+	var distance = start.distance_to(target)
+
+	# Build a pure global transform
+	var basis = Basis.looking_at(direction, Vector3.UP)
+	rope.global_transform = Transform3D(basis, start)
+
+	rope.scale = Vector3(1, 1, distance)
 	
-	rope.look_at(target)
-	rope.scale = Vector3(1,1, dist)
 
 
 func _on_grapple_cooldown_timeout() -> void:
@@ -98,5 +124,8 @@ func opened_ui(state: bool, _can_move: bool):
 	
 	else:
 		is_ui_opened = false
+		
+		
+
 	
 	

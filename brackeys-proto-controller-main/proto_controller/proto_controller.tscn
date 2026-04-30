@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=13 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://cdmkfmd2agdn8" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://k8c7sh4fb1h4" path="res://rope.tscn" id="2_qmbkt"]
 [ext_resource type="Script" uid="uid://bgj3g8kal1ufo" path="res://brackeys-proto-controller-main/proto_controller/grapple_controller.gd" id="2_qxduv"]
+[ext_resource type="Script" uid="uid://b0ui4eabrfbry" path="res://brackeys-proto-controller-main/proto_controller/mesh_instance_3d_2.gd" id="3_2b46n"]
+[ext_resource type="PackedScene" uid="uid://cbvy1t4k6tqg1" path="res://models/low-poly-katana/source/blockbench_export.tscn" id="3_7ugh1"]
 [ext_resource type="Script" uid="uid://fbm68f0msrrw" path="res://brackeys-proto-controller-main/proto_controller/ItemController.gd" id="4_nqm15"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
@@ -16,9 +18,35 @@ height = 1.8
 radius = 0.4
 height = 1.8
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_nqm15"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_qmbkt"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_nqm15"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nqm15"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Head/Camera3D/Rope:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Head/Camera3D/HeldItem/MeshInstance3D:visible")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Head/Camera3D/HeldItem/MeshInstance3D2:visible")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Head/Camera3D/HeldItem/MeshInstance3D2:position")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("Head/Camera3D/HeldItem/MeshInstance3D2:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("./Head/Camera3D/Rope:global_transform")
+properties/7/spawn = true
+properties/7/replication_mode = 1
 
 [node name="ProtoController" type="CharacterBody3D"]
 collision_layer = 2
@@ -43,6 +71,7 @@ shape = SubResource("CapsuleShape3D_iof21")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
+cull_mask = 1048573
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, -1, -35)
@@ -50,13 +79,6 @@ target_position = Vector3(0, -1, -35)
 [node name="Rope" parent="Head/Camera3D" instance=ExtResource("2_qmbkt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -0.5)
 visible = false
-
-[node name="HeldItem" type="Node3D" parent="Head/Camera3D"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.3, -0.79442215, -0.5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D/HeldItem"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 2, 0)
-mesh = SubResource("CapsuleMesh_qmbkt")
 
 [node name="aim" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, -1, -2000)
@@ -67,8 +89,41 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera3D/hurtbox"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.70000005, -0.6)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.70000076, -1.5)
 shape = SubResource("SphereShape3D_nqm15")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Head/Camera3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Head/Camera3D/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Head/Camera3D/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+cull_mask = 1047554
+
+[node name="HeldItem" type="Node3D" parent="Head/Camera3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.2, -0.29999995, -0.4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D/HeldItem"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.5, 0.50000095, 0)
+layers = 2
+mesh = SubResource("CapsuleMesh_qmbkt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Head/Camera3D/HeldItem"]
+layers = 2
+script = ExtResource("3_2b46n")
+
+[node name="blockbench_export" parent="Head/Camera3D/HeldItem/MeshInstance3D2" instance=ExtResource("3_7ugh1")]
+transform = Transform3D(0.039199814, 0.2223131, 1.28025, 1.2802504, -0.22574267, 0, 0.22231317, 1.2608002, -0.22574264, -0.5, 0.5, -1.5000002)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.3
@@ -91,9 +146,14 @@ wait_time = 2.0
 one_shot = true
 ignore_time_scale = true
 
-[node name="ItemController" type="Node" parent="." node_paths=PackedStringArray("heldItem")]
+[node name="ItemController" type="Node" parent="." node_paths=PackedStringArray("heldItem", "gun", "sword")]
 script = ExtResource("4_nqm15")
 heldItem = NodePath("../Head/Camera3D/HeldItem")
+gun = NodePath("../Head/Camera3D/HeldItem/MeshInstance3D")
+sword = NodePath("../Head/Camera3D/HeldItem/MeshInstance3D2")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nqm15")
 
 [connection signal="body_entered" from="Head/Camera3D/hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
